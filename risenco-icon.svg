@@ -1,0 +1,19 @@
+<svg width="120" height="100" viewBox="0 0 120 100" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Risenco icon mark</title>
+  <desc>Double chevron with gold outer, teal inner, gold dot at peak</desc>
+
+  <rect width="120" height="100" fill="#080B0B"/>
+
+  <!-- Outer chevron: gold -->
+  <polyline points="10,85 60,15 110,85"
+            fill="none" stroke="#C9A84C" stroke-width="6"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Inner chevron: teal -->
+  <polyline points="30,85 60,38 90,85"
+            fill="none" stroke="#0D9488" stroke-width="5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Gold dot at peak -->
+  <circle cx="60" cy="10" r="8" fill="#C9A84C"/>
+</svg>
