@@ -514,7 +514,75 @@ body::before   { z-index: 9998; }
 
 @media (max-width: 900px) {
   .portfolio-grid { grid-template-columns: 1fr; }
-  .preview-bubble { display: none; }
+
+  /* On tablet/mobile, show preview as an inline collapsed card instead of a hover bubble */
+  .preview-bubble {
+    position: static;
+    width: 100%;
+    height: 200px;
+    margin-top: 1rem;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    border-radius: 6px;
+    border-color: rgba(13,148,136,0.4);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    transition: none;
+    display: block;
+  }
+
+  /* Hide the downward caret arrow — not needed when inline */
+  .preview-bubble::before { display: none; }
+
+  /* Re-scale the iframe to fit the narrower inline container */
+  .preview-bubble iframe {
+    width: 1280px;
+    height: 820px;
+    transform: scale(0.245);
+    transform-origin: top left;
+  }
+
+  /* preview-wrap takes full width so the inline bubble stretches properly */
+  .preview-wrap { display: block; width: 100%; }
+
+  /* Stack the footer so button + preview are both full-width */
+  .portfolio-footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .portfolio-visit-btn { align-self: flex-end; }
+}
+
+@media (max-width: 480px) {
+  /* Even narrower phones — reduce iframe scale further */
+  .preview-bubble {
+    height: 170px;
+  }
+  .preview-bubble iframe {
+    transform: scale(0.205);
+  }
+
+  /* Coming-soon card should not span 2 columns on single-column layout */
+  .portfolio-card--full {
+    grid-column: span 1 !important;
+  }
+
+  /* Tighten hero stats on tiny screens */
+  .hero-stats { gap: 1.25rem; flex-wrap: wrap; }
+  .hero-stat-num { font-size: 2.2rem; }
+
+  /* Trust bar: single column on very small phones */
+  .trust-bar-inner { grid-template-columns: 1fr; }
+  .trust-item { border-right: none; border-bottom: 0.5px solid var(--border); }
+  .trust-item:last-child { border-bottom: none; }
+
+  /* Nav: shrink CTA text so logo + button both fit */
+  .nav-cta { font-size: 10px; padding: 0.5rem 0.9rem; }
+  .nav-wordmark { font-size: 1.15rem; }
+
+  /* Reduce section padding a bit more */
+  section { padding: 4rem 1.25rem; }
+  #home { padding: 0 1.25rem 3rem; }
+
+  /* Portfolio card inner padding */
+  .portfolio-card-inner { padding: 1.5rem; }
 }
 .particle {
   position: fixed; border-radius: 50%;
@@ -1769,7 +1837,7 @@ footer {
       </div>
 
       <!-- Coming soon card -->
-      <div class="portfolio-card sr" style="grid-column: span 2; opacity: 0.5;">
+      <div class="portfolio-card portfolio-card--full sr" style="grid-column: span 2; opacity: 0.5;">
         <div class="portfolio-card-inner" style="display:flex; align-items:center; justify-content:center; padding: 2.5rem; text-align:center; gap: 1rem; flex-direction: column;">
           <p class="portfolio-tag" style="justify-content:center;">Coming Soon</p>
           <h3 class="portfolio-name" style="font-size:1.2rem;">Your business could be featured here</h3>
