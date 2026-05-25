@@ -515,74 +515,95 @@ body::before   { z-index: 9998; }
 @media (max-width: 900px) {
   .portfolio-grid { grid-template-columns: 1fr; }
 
-  /* On tablet/mobile, show preview as an inline collapsed card instead of a hover bubble */
+  /* Card must clip the inline preview — override the desktop overflow:visible */
+  .portfolio-card { overflow: hidden; }
+
+  /* portfolio-card-inner: remove bottom padding so preview butts up flush */
+  .portfolio-card-inner { padding-bottom: 0; }
+
+  /* Footer row: client info + visit button stay side by side */
+  .portfolio-footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* preview-wrap: full-width block sitting outside/below the card-inner padding,
+     flush to card edges (negative margin cancels the card-inner padding) */
+  .preview-wrap {
+    display: block;
+    width: calc(100% + 4rem); /* cancel 2rem padding on each side */
+    margin-left: -2rem;
+    margin-right: -2rem;
+  }
+
+  /* ── Inline preview card ── */
   .preview-bubble {
     position: static;
     width: 100%;
-    height: 200px;
-    margin-top: 1rem;
+    /* height follows width: aspect-ratio = 1280/820 = desktop viewport ratio */
+    aspect-ratio: 1280 / 820;
+    height: auto;
     opacity: 1;
     transform: none;
     pointer-events: auto;
-    border-radius: 6px;
-    border-color: rgba(13,148,136,0.4);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid rgba(13,148,136,0.25);
+    box-shadow: none;
     transition: none;
     display: block;
+    /* container query lets iframe use 100cqw to compute its scale factor */
+    container-type: inline-size;
   }
 
-  /* Hide the downward caret arrow — not needed when inline */
+  /* hide the downward caret arrow */
   .preview-bubble::before { display: none; }
 
-  /* Re-scale the iframe to fit the narrower inline container */
+  /* scale the 1280px iframe to exactly fill the container width */
   .preview-bubble iframe {
     width: 1280px;
     height: 820px;
-    transform: scale(0.245);
+    border: none;
+    transform: scale(calc(100cqw / 1280px));
     transform-origin: top left;
+    pointer-events: none;
+    display: block;
   }
-
-  /* preview-wrap takes full width so the inline bubble stretches properly */
-  .preview-wrap { display: block; width: 100%; }
-
-  /* Stack the footer so button + preview are both full-width */
-  .portfolio-footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .portfolio-visit-btn { align-self: flex-end; }
 }
 
 @media (max-width: 480px) {
-  /* Even narrower phones — reduce iframe scale further */
-  .preview-bubble {
-    height: 170px;
-  }
-  .preview-bubble iframe {
-    transform: scale(0.205);
-  }
+  /* Coming-soon card: no column spanning on single-column layout */
+  .portfolio-card--full { grid-column: span 1 !important; }
 
-  /* Coming-soon card should not span 2 columns on single-column layout */
-  .portfolio-card--full {
-    grid-column: span 1 !important;
-  }
+  /* Smaller inner padding + recalculate preview-wrap negative margin */
+  .portfolio-card-inner { padding: 1.25rem 1.25rem 0; }
+  .preview-wrap { width: calc(100% + 2.5rem); margin-left: -1.25rem; margin-right: -1.25rem; }
+  .portfolio-footer { margin-bottom: 1rem; }
 
-  /* Tighten hero stats on tiny screens */
+  /* Why-grid: prevent large ghost numbers causing horizontal overflow */
+  .why-card { overflow: hidden; }
+  .why-card::after { font-size: 4.5rem; right: 0.5rem; bottom: -0.5rem; }
+
+  /* Hero stats */
   .hero-stats { gap: 1.25rem; flex-wrap: wrap; }
   .hero-stat-num { font-size: 2.2rem; }
 
-  /* Trust bar: single column on very small phones */
+  /* Trust bar: single column */
   .trust-bar-inner { grid-template-columns: 1fr; }
   .trust-item { border-right: none; border-bottom: 0.5px solid var(--border); }
   .trust-item:last-child { border-bottom: none; }
 
-  /* Nav: shrink CTA text so logo + button both fit */
+  /* Nav */
   .nav-cta { font-size: 10px; padding: 0.5rem 0.9rem; }
   .nav-wordmark { font-size: 1.15rem; }
 
-  /* Reduce section padding a bit more */
+  /* Section padding */
   section { padding: 4rem 1.25rem; }
   #home { padding: 0 1.25rem 3rem; }
-
-  /* Portfolio card inner padding */
-  .portfolio-card-inner { padding: 1.5rem; }
 }
 .particle {
   position: fixed; border-radius: 50%;
@@ -1394,6 +1415,7 @@ footer {
   .service-features-inline, .service-arrow { display: none; }
   .pricing-grid { grid-template-columns: 1fr; }
   .why-grid { grid-template-columns: 1fr; }
+  .why-card { overflow: hidden; }
   .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
   .form-row { grid-template-columns: 1fr; }
   .footer-top { flex-direction: column; gap: 2rem; }
