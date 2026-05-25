@@ -375,7 +375,147 @@ body::before   { z-index: 9998; }
   to { opacity: 1; }
 }
 
-/* ── FLOATING PARTICLES ── */
+/* ── PORTFOLIO SECTION ── */
+#portfolio { background: var(--bg2); }
+
+.portfolio-header { margin-bottom: 3.5rem; }
+
+.portfolio-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.portfolio-card {
+  border: 0.5px solid var(--border);
+  border-radius: 4px; overflow: visible;
+  background: var(--bg3);
+  position: relative;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.portfolio-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+
+.portfolio-card-inner { padding: 2rem; }
+
+.portfolio-tag {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--teal);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.portfolio-tag::before { content: ''; width: 16px; height: 1px; background: var(--teal); }
+
+.portfolio-name {
+  font-family: var(--font-display);
+  font-size: 1.6rem; font-weight: 300;
+  color: var(--white); margin-bottom: 0.4rem;
+}
+
+.portfolio-desc {
+  font-size: 13px; color: var(--white-dim);
+  line-height: 1.7; margin-bottom: 1.5rem;
+}
+
+.portfolio-services {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 1.75rem;
+}
+
+.portfolio-service-tag {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 4px 10px;
+  border: 0.5px solid var(--border);
+  color: var(--white-dim); border-radius: 2px;
+}
+
+.portfolio-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1.25rem; border-top: 0.5px solid var(--border);
+}
+
+.portfolio-client-info { display: flex; flex-direction: column; gap: 2px; }
+.portfolio-client-name { font-size: 13px; font-weight: 500; color: var(--white); }
+.portfolio-client-location { font-size: 11px; color: var(--white-dim); }
+
+.portfolio-visit-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--bg);
+  background: var(--gold); padding: 0.6rem 1.25rem;
+  border-radius: 2px; text-decoration: none;
+  transition: background 0.2s, gap 0.2s;
+  position: relative;
+}
+
+.portfolio-visit-btn:hover { background: #d4b05a; gap: 12px; }
+
+.portfolio-visit-btn svg { width: 12px; height: 12px; }
+
+/* ── PREVIEW BUBBLE ── */
+.preview-bubble {
+  position: absolute;
+  bottom: calc(100% + 16px);
+  right: 0;
+  width: 420px;
+  height: 260px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid var(--teal);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(13,148,136,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 0.3s cubic-bezier(0.16,1,0.3,1), transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  z-index: 999;
+}
+
+.preview-bubble::before {
+  content: '';
+  position: absolute; bottom: -8px; right: 32px;
+  width: 16px; height: 16px;
+  background: var(--teal);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  z-index: 2;
+}
+
+.preview-bubble iframe {
+  width: 1280px; height: 820px;
+  border: none;
+  transform: scale(0.328);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.preview-label {
+  position: absolute; top: 10px; left: 12px;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--teal);
+  background: rgba(13,148,136,0.1);
+  border: 0.5px solid rgba(13,148,136,0.3);
+  padding: 3px 8px; border-radius: 20px;
+  z-index: 3;
+}
+
+.portfolio-visit-btn:hover + .preview-bubble,
+.portfolio-visit-btn:focus + .preview-bubble,
+.preview-bubble:hover {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: none;
+}
+
+/* Group hover — show preview on btn hover */
+.preview-wrap { position: relative; display: inline-block; }
+.preview-wrap:hover .preview-bubble {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (max-width: 900px) {
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .preview-bubble { display: none; }
+}
 .particle {
   position: fixed; border-radius: 50%;
   pointer-events: none; z-index: 1;
@@ -1220,6 +1360,7 @@ footer {
     <li><a href="#services">Services</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#why">Why us</a></li>
+    <li><a href="#portfolio">Work</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Get started</a>
 </nav>
@@ -1547,6 +1688,95 @@ footer {
         <h3>Built for India</h3>
         <p>We understand the Indian market — local businesses, local customers, local culture. No generic playbook.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-inner">
+    <div class="portfolio-header sr">
+      <span class="section-tag">Our Work</span>
+      <h2 class="display-title">Clients we've<br><em>helped rise.</em></h2>
+    </div>
+    <div class="portfolio-grid">
+
+      <!-- Sheraton -->
+      <div class="portfolio-card sr">
+        <div class="portfolio-card-inner">
+          <p class="portfolio-tag">Live Project</p>
+          <h3 class="portfolio-name">Sheraton Apparels</h3>
+          <p class="portfolio-desc">50-year-old premium men's shirt manufacturer & exporter based in Mumbai. We redesigned their digital presence from a 2019 website to a premium, globally-facing brand — built for European B2B buyers.</p>
+          <div class="portfolio-services">
+            <span class="portfolio-service-tag">Website Redesign</span>
+            <span class="portfolio-service-tag">SEO</span>
+            <span class="portfolio-service-tag">Lead Capture</span>
+            <span class="portfolio-service-tag">B2B Optimisation</span>
+          </div>
+          <div class="portfolio-footer">
+            <div class="portfolio-client-info">
+              <span class="portfolio-client-name">Sheraton Apparels Pvt. Ltd.</span>
+              <span class="portfolio-client-location">Malad West, Mumbai — Est. 1972</span>
+            </div>
+            <div class="preview-wrap">
+              <a href="https://sheraton-apparels.vercel.app" target="_blank" rel="noopener" class="portfolio-visit-btn">
+                Visit Site
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 10L10 2M10 2H5M10 2v5"/>
+                </svg>
+              </a>
+              <div class="preview-bubble">
+                <span class="preview-label">Live Preview</span>
+                <iframe src="https://sheraton-apparels.vercel.app" title="Sheraton Apparels Preview" loading="lazy" sandbox="allow-same-origin allow-scripts"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Risenco itself -->
+      <div class="portfolio-card sr">
+        <div class="portfolio-card-inner">
+          <p class="portfolio-tag">Our Own Brand</p>
+          <h3 class="portfolio-name">Risenco</h3>
+          <p class="portfolio-desc">We built our own digital presence from scratch — AI-powered particle background, fully animated, SEO-optimised, with live lead capture connected to Supabase and Formspree. This site is our portfolio.</p>
+          <div class="portfolio-services">
+            <span class="portfolio-service-tag">Brand Identity</span>
+            <span class="portfolio-service-tag">Website Design</span>
+            <span class="portfolio-service-tag">SEO Setup</span>
+            <span class="portfolio-service-tag">Lead Automation</span>
+          </div>
+          <div class="portfolio-footer">
+            <div class="portfolio-client-info">
+              <span class="portfolio-client-name">Risenco Digital Studio</span>
+              <span class="portfolio-client-location">India — Est. 2026</span>
+            </div>
+            <div class="preview-wrap">
+              <a href="https://outreach-iq.in" target="_blank" rel="noopener" class="portfolio-visit-btn">
+                Visit Site
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 10L10 2M10 2H5M10 2v5"/>
+                </svg>
+              </a>
+              <div class="preview-bubble">
+                <span class="preview-label">Live Preview</span>
+                <iframe src="https://outreach-iq.in" title="Risenco Preview" loading="lazy" sandbox="allow-same-origin allow-scripts"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coming soon card -->
+      <div class="portfolio-card sr" style="grid-column: span 2; opacity: 0.5;">
+        <div class="portfolio-card-inner" style="display:flex; align-items:center; justify-content:center; padding: 2.5rem; text-align:center; gap: 1rem; flex-direction: column;">
+          <p class="portfolio-tag" style="justify-content:center;">Coming Soon</p>
+          <h3 class="portfolio-name" style="font-size:1.2rem;">Your business could be featured here</h3>
+          <p class="portfolio-desc" style="max-width:400px; margin:0;">We're actively onboarding new clients. Get in touch and join businesses already rising with Risenco.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
